@@ -1,9 +1,8 @@
-
 Restricciones y triggers
 
 -controlar si se puede hacer la apuesta (si esta abierta o no) -Trigger
 -controlar si las apuestas aciertan o no 
-	-actualizar los saldos de los usuarios - trigger
+	-actualizar los saldos de los usuarios - trigger * hay que verlo
 	-lo que ganas y lo que pierdes (con lo de las cuotas) - funcion para calcularlo
 -controlar que no haya saldo negativo -check y trigger (para que teniendo +1 no puedas apostar +2)
 -procedimiento para sacar / ingresar dinero (?)
