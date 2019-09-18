@@ -42,7 +42,8 @@ CREATE TABLE competicion
 	idCompeticion INT(6) PRIMARY KEY,
 	nombreCompeticion VARCHAR(20) NOT NULL
 	partido INT(6) NOT NULL,
-		CONSTRAINT partido_FK FOREIGN KEY (partido) REFERENCES partido (codigoPartido));
+		CONSTRAINT partido_FK FOREIGN KEY (partido) REFERENCES partido (codigoPartido)
+);
 
 
 CREATE TABLE tipo1
