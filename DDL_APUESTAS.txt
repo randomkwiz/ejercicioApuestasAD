@@ -1,0 +1,74 @@
+--BASE DATOS APUESTA
+
+CREATE TABLE usuario
+(
+	id INT(6) PRIMARY KEY,
+	nombre varchar(20) NOT NULL,
+	contraseña VARCHAR(10) NOT NULL,
+	correo VARCHAR(15) NOT NULL,
+	saldoActual INT(10) NOT NULL,
+	cuenta INT(6) NOT NULL,
+		CONSTRAINT cuenta_FK FOREIGN KEY (cuenta) REFERENCES cuenta(CodigoCuenta)
+);
+
+
+CREATE TABLE cuenta
+(
+	CodigoCuenta int(6) PRIMARY KEY,
+	saldo int(10) NOT NULL,
+	fechaYHora DATETIME NOT NULL
+);
+
+CREATE TABLE apuesta
+(
+	codigoApuesta INT(6) PRIMARY KEY,
+	cuota INT(10),
+	fechaYHoraApuesta DATETIME,
+	loApostado INT(10)
+);
+
+CREATE TABLE partido
+(
+	codigoPartido INT(6) PRIMARY KEY,
+	max1...,
+	max2...,
+	max3...,
+	resultado INT(6) NOT NULL,
+	fechaPartido DATE NOT NULL
+);
+
+CREATE TABLE competicion
+(
+	idCompeticion INT(6) PRIMARY KEY,
+	nombreCompeticion VARCHAR(20) NOT NULL
+	partido INT(6) NOT NULL,
+		CONSTRAINT partido_FK FOREIGN KEY (partido) REFERENCES partido (codigoPartido));
+
+
+CREATE TABLE tipo1
+(
+	codigoTipo1 INT(6) PRIMARY KEY,
+	numGolesApostadoLocal INT(3),
+	numGolesVisit INT(3),
+	apuesta INT(6),
+		CONSTRAINT apuesta_FK FOREIGN KEY (apuesta) REFERENCES apuesta (codigoApuesta)
+);
+
+CREATE TABLE tipo2
+(
+	codigoTipo2 INT(6) PRIMARY KEY,
+	equipo VARCHAR(15) NOT NULL,
+	goles INT(3),
+	apuesta INT(6),
+		CONSTRAINT apuesta_FK FOREIGN KEY (apuesta) REFERENCES apuesta (codigoApuesta)
+);
+
+CREATE TABLE tipo3
+(
+	codigoTipo3 INT(6) PRIMARY KEY,
+	ganador VARCHAR(15),
+	apuesta INT(6),
+		CONSTRAINT apuesta_FK FOREIGN KEY (apuesta) REFERENCES apuesta (codigoApuesta)
+);
+
+
