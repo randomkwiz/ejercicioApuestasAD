@@ -61,7 +61,8 @@ CREATE TABLE ApuestaTipo1
 	constraint PK_ApuestaTipo1 PRIMARY KEY (id),
 
 	----------------------------fk-----------------------------------------------
-	CONSTRAINT FK_Usuarios_ApuestaTipo1 FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) on update cascade on delete cascade,
+	CONSTRAINT FK_Usuarios_ApuestaTipo1 FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) 
+	on update cascade on delete cascade,
 	CONSTRAINT FK_Partidos_ApuestaTipo1 FOREIGN KEY (idPartido) REFERENCES partidos (id)
 	
 );
