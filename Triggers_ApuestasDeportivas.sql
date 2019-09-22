@@ -113,3 +113,8 @@ BEGIN
 END
 
 
+------------------------
+/*Controlar el maximo de apuestas */
+	--Funcion para saber cuantas apuestas de un tipo hay ya para un partido
+	--Trigger que, sabiendo cuántas apuestas hay ya para un partido, no deje añadir más si se ha llegado al maximo.
+
