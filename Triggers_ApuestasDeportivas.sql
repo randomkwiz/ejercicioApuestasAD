@@ -88,3 +88,28 @@ go
 primero quiero que comprobemos que ese está bien. 
 Si lo está, ya copipasteamos los demás, que sería simplemente cambiar la tabla sobre la que 
 operaría el trigger */
+
+-----------------
+/*Controlar que una apuesta no pueda cambiarse ni borrarse*/
+GO
+BEGIN TRAN
+GO
+ALTER
+--CREATE
+TRIGGER noSeAceptanModificaciones
+ON APUESTATIPO1
+AFTER UPDATE, DELETE AS
+BEGIN
+	if exists (
+	select I.id
+	from inserted as I
+	inner join ApuestaTipo1 as A
+	on A.id = I.id
+	)
+	BEGIN
+	RAISERROR('No se pueden modificar ni eliminar apuestas',16,1)
+	ROLLBACK
+	END
+END
+
+
