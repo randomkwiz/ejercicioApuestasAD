@@ -122,3 +122,29 @@ CREATE TABLE Cuentas
 	CONSTRAINT FK_Usuarios_Cuentas FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) on update cascade on delete cascade
 );
 
+------------------chechs------------------------------------
+alter table Usuarios add constraint CK_Email check (correo like '%@%.%')
+go
+alter table Usuarios add constraint CK_SaldoActual check (SaldoActual >=0)
+go
+
+begin transaction
+
+insert into Usuarios values 
+('nzhdeh@gmail','89999',55)
+go
+insert into Usuarios values 
+('nzhdehgmail.com','89999',55)
+go
+insert into Usuarios values 
+('nzhdeh@gmail.com         ','89999',55)
+go
+insert into Usuarios values 
+('nzhdeh@gmail.com         ','89999',-5)
+go
+insert into Usuarios values 
+('nzhdeh@gmail.com         ','89999',55)
+go
+rollback
+
+select * from Usuarios
