@@ -27,7 +27,7 @@ go
 
 CREATE TABLE Partidos
 (
-	id INT not null,
+	id UNIQUEIDENTIFIER not null,
 	resultadoLocal TINYINT null,
 	resultadoVisitante TINYINT null,
 	isAbierto BIT null,
@@ -45,65 +45,67 @@ CREATE TABLE Partidos
 );
 go
 
+
+CREATE TABLE APUESTAS (
+	ID UNIQUEIDENTIFIER NOT NULL,
+	CUOTA TINYINT NOT NULL,
+	FECHAHORAAPUESTA SMALLDATETIME NOT NULL,
+	DINEROAPOSTADO SMALLMONEY NOT NULL,
+	CORREOUSUARIO CHAR(15) NOT NULL,
+	IDPARTIDO UNIQUEIDENTIFIER NOT NULL,
+
+	CONSTRAINT PK_APUESTA PRIMARY KEY (ID),
+	CONSTRAINT FK_APUESTA_USUARIO FOREIGN KEY (CORREOUSUARIO) REFERENCES USUARIOS(CORREO) 
+	ON DELETE NO ACTION ON UPDATE NO ACTION,	--NO SE PUEDEN NI ACTUALIZAR NI BORRAR
+
+	CONSTRAINT FK_APUESTA_PARTIDO FOREIGN KEY(IDPARTIDO) REFERENCES PARTIDOS(ID)
+	ON DELETE NO ACTION ON UPDATE NO ACTION
+)
+
+
+
+
 CREATE TABLE ApuestaTipo1
 (
-	id INT not null,
-	fechaApuesta SMALLDATETIME NOT NULL,
-	dinero MONEY NOT NULL,
-	fechaHoraApuesta SMALLDATETIME NOT NULL, 
+	id UNIQUEIDENTIFIER not null,
 	NumGolesLocal TINYINT NOT NULL,
 	numGolesVisitante TINYINT NOT NULL,
-	cuota MONEY NOT NULL,
-	correoUsuario CHAR(15),
-	idPartido INT IDENTITY,
 
 	---------------pk------------------------------------
 	constraint PK_ApuestaTipo1 PRIMARY KEY (id),
 
 	----------------------------fk-----------------------------------------------
-	CONSTRAINT FK_Usuarios_ApuestaTipo1 FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) 
-	on update cascade on delete cascade,
-	CONSTRAINT FK_Partidos_ApuestaTipo1 FOREIGN KEY (idPartido) REFERENCES partidos (id)
+	CONSTRAINT FK_APUESTA_APUESTATIPO1 FOREIGN KEY (ID) REFERENCES APUESTAS(ID)
+	on update cascade on delete cascade
 	
 );
 go
 
 CREATE TABLE ApuestaTipo2
 (	
-	id INT not null,
-	cuota MONEY,
-	fechaHoraApuesta SMALLDATETIME,
-	dineroApostado MONEY NOT NULL,
+	id UNIQUEIDENTIFIER not null,
 	equipo VARCHAR(10) NOT NULL,
 	goles TINYINT NOT NULL,
-	correoUsuario CHAR(15),
-	idPartido INT IDENTITY,
 
 	---------------pk------------------------------------
 	constraint PK_ApuestaTipo2 PRIMARY KEY (id),
 
 	----------------------------fk-----------------------------------------------
-	CONSTRAINT FK_usuarios_ApuestaTipo2 FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) on update cascade on delete cascade,
-	CONSTRAINT FK_Partidos_ApuestaTipo2 FOREIGN KEY (idPartido) REFERENCES partidos (id)
+	CONSTRAINT FK_APUESTA_APUESTATIPO2 FOREIGN KEY (ID) REFERENCES APUESTAS(ID)
+	on update cascade on delete cascade
 );
 go
 
 CREATE TABLE ApuestaTipo3
 (
-	id INT not null,
-	cuota INT NOT NULL,
-	fechaYHoraApuesta DATETIME NOT NULL,
-	dineroApostado MONEY NOT NULL,	
+	id UNIQUEIDENTIFIER not null,
 	ganador VARCHAR(15) NOT NULL,
-	correoUsuario CHAR(15),
-	idPartido INT IDENTITY,
 
 	---------------pk------------------------------------
 	constraint PK_ApuestaTipo3 PRIMARY KEY (id),
-
 	----------------------------fk-----------------------------------------------
-	CONSTRAINT FK_Usuarios_ApuestaTipo3 FOREIGN KEY (correoUsuario) REFERENCES usuarios (correo) on update cascade on delete cascade,
-	CONSTRAINT FK_Partidos_ApuestaTipo3 FOREIGN KEY (idPartido) REFERENCES partidos (id)
+	CONSTRAINT FK_APUESTA_APUESTATIPO3 FOREIGN KEY (ID) REFERENCES APUESTAS(ID)
+	on update cascade on delete cascade
 );
 go
 
