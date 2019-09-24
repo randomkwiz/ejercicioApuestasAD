@@ -147,6 +147,59 @@ cuantoDineroHayApostadoAUnPartido (@IDPartido UNIQUEIDENTIFIER, @tipoApuesta int
 go
 
 
+--Trigger que, sabiendo cuántas apuestas hay ya para un partido, no deje añadir más si se ha llegado al maximo.
 
+/*SOLO VALE SI HACES LAS INSERCIONES DE UNA EN UNA*/
+GO
+BEGIN TRAN
+GO
+ALTER
+--CREATE
+TRIGGER comprobarSiSeHaAlcanzadoElMaximo
+ON APUESTAS
+AFTER INSERT AS
+BEGIN
 
+	DECLARE @IDPARTIDO UNIQUEIDENTIFIER 
+	SET @IDPARTIDO = (SELECT IDPARTIDO
+					FROM inserted)
+
+	DECLARE @TIPO TINYINT 
+	SET @TIPO = (SELECT TIPO FROM inserted)
+
+	DECLARE @MAXIMO INT
+
+	IF (@TIPO = 1)
+	BEGIN
+	SET @MAXIMO = (SELECT P.maxApuesta1
+					FROM inserted AS I
+					INNER JOIN Partidos AS P
+					ON I.IDPARTIDO = P.id
+					)
+	END
+	
+	IF (@TIPO = 2)
+	BEGIN
+	SET @MAXIMO = (SELECT P.maxApuesta2
+					FROM inserted AS I
+					INNER JOIN Partidos AS P
+					ON I.IDPARTIDO = P.id
+					)
+	END
+
+	IF (@TIPO = 3)
+	BEGIN
+	SET @MAXIMO = (SELECT P.maxApuesta3
+					FROM inserted AS I
+					INNER JOIN Partidos AS P
+					ON I.IDPARTIDO = P.id
+					)
+	END
+
+	if (dbo.cuantoDineroHayApostadoAUnPartido(@IDPARTIDO, @TIPO) > @MAXIMO )
+	BEGIN
+	RAISERROR('EL MAXIMO DE DINERO DE LAS APUESTAS YA SE HA LLENADO',16,1)
+	ROLLBACK
+	END
+END
 
