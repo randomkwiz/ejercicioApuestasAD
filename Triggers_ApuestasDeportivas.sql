@@ -115,6 +115,34 @@ END
 
 ------------------------
 /*Controlar el maximo de apuestas */
-	--Funcion para saber cuantas apuestas de un tipo hay ya para un partido
+	--Funcion para saber cuanto dinero en apuestas de un tipo hay ya para un partido, que sume las cantidades
 	--Trigger que, sabiendo cuántas apuestas hay ya para un partido, no deje añadir más si se ha llegado al maximo.
+
+	/*Funcion a la que le pases el ID del partido y el tipo de apuesta, y te devuelva la suma de las cantidades apostadas (cuota*dineroApostado)
+	para ese partido
+	*/
+
+	go
+ALTER
+--CREATE 
+FUNCTION 
+cuantoDineroHayApostadoAUnPartido (@IDPartido int, @tipoApuesta int)
+	RETURNS INT AS
+	BEGIN 
+	DECLARE @RESULTADO INT
+	SELECT @RESULTADO = 
+		SUM(A.CUOTA * A.DINEROAPOSTADO) AS CANTIDAD_A_PAGAR
+		FROM Partidos AS P
+		INNER JOIN APUESTAS AS A
+		ON P.id = A.IDPARTIDO
+		WHERE @IDPARTIDO = P.ID
+		AND @TIPOAPUESTA = A.TIPO
+	RETURN @RESULTADO
+	END
+	
+go
+
+
+
+
 
