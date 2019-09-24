@@ -128,20 +128,31 @@ GO
 ALTER
 --CREATE
 TRIGGER noSeAceptanModificaciones
-ON APUESTATIPO1
-AFTER UPDATE, DELETE AS
+ON APUESTAS
+instead of UPDATE, DELETE AS
 BEGIN
-	if exists (
-	select I.id
-	from inserted as I
-	inner join ApuestaTipo1 as A
-	on A.id = I.id
-	)
-	BEGIN
+	--if exists (
+	--select I.id
+	--from inserted as I
+	--inner join Apuestas as A
+	--on A.id = I.id
+	--)
+	--BEGIN
 	RAISERROR('No se pueden modificar ni eliminar apuestas',16,1)
 	ROLLBACK
-	END
+	--END
 END
+begin tran
+delete from APUESTAS
+where ID='60784E11-B1FF-466C-A7A5-E2330944301A'
+rollback
+go
+begin tran
+update APUESTAS
+set DINEROAPOSTADO=45
+where ID='60784E11-B1FF-466C-A7A5-E2330944301A'
+rollback
+select * from APUESTAS
 
 
 ------------------------
