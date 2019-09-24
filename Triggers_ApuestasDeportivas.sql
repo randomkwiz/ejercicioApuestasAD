@@ -86,10 +86,10 @@ SELECT dbo.GananciaDeUnUsuarioConUnaApuesta(4,3) as prueba
 GO
 BEGIN TRAN
 GO
-ALTER
---CREATE
-TRIGGER noApuestesLoQueNoTienesTipo1
-ON APUESTATIPO1
+--ALTER
+CREATE
+TRIGGER noApuestesLoQueNoTienes
+ON APUESTAS
 AFTER INSERT, UPDATE AS
 BEGIN
 	IF EXISTS
@@ -97,16 +97,23 @@ BEGIN
 		FROM inserted as I
 		inner join Usuarios as U
 		on I.correoUsuario = U.correo
-		WHERE saldoActual < I.dinero
+		WHERE saldoActual < I.DINEROAPOSTADO
 		)
 	BEGIN
 		RAISERROR('No puedes apostar más de lo que tienes',16,1)
 		ROLLBACK
 	END
-
 END
-
 go
+begin tran
+insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--debe fallar
+values(NEWID(),3.5,'2018-05-10 00:00:00',55,'nzhdeh@gmail.com','82274901-D2D2-4508-8AF8-2E6736BA6A40',1)
+rollback
+go
+begin tran
+insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--funciona
+values(NEWID(),3.5,'2018-05-10 00:00:00',50,'nzhdeh@gmail.com','82274901-D2D2-4508-8AF8-2E6736BA6A40',1)
+rollback
 
 /*De momento he hecho solo el de apuestas tipo 1 porque como son los tres iguales, 
 primero quiero que comprobemos que ese está bien. 
