@@ -7,6 +7,20 @@
 
 	USE ApuestasDeportivas
 GO
+insert into Usuarios(correo,contraseña,saldoActual)
+values('nzhdeh@gmail.com','1234',50)
+go
+insert into Competiciones(id,nombre,año)
+values(1,'La champion',2018)
+go
+insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion)
+values(NEWID(),0,0,1,50,100,150,'2018-05-10 00:00:00',1)
+go
+go
+insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion)
+values(NEWID(),0,0,0,50,100,150,'2018-05-12 00:00:00',1)
+go
+--drop trigger comprobarSiPeriodoApuestasEstaAbierto
 BEGIN TRAN
 GO
 ALTER
@@ -19,15 +33,25 @@ BEGIN
 		(SELECT I.id
 		FROM inserted as I
 		inner join Partidos as P
-		on I.idPartido = P.id
-		WHERE P.isAbierto = 1	--si existen inserciones que estén relacionadas con partidos con el cupo cerrado
+		on I.IDPARTIDO = P.id
+		WHERE P.isAbierto = 0	--si existen inserciones que estén relacionadas con partidos con el cupo abierto
 		)
 	BEGIN
 		RAISERROR('EL PERIODO DE APUESTAS ESTA CERRADO',16,1)
 		ROLLBACK
 	END
-
 END
+go
+begin tran
+insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--funciona
+values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','82274901-D2D2-4508-8AF8-2E6736BA6A40',1)
+rollback
+go
+begin tran
+insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--debe fallar
+values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','05D6A2C4-68FE-4FC2-BB17-309B3BF44529',1)
+rollback
+select * from Partidos
 
 go
 
