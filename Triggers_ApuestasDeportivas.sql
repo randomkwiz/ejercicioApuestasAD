@@ -11,8 +11,8 @@ BEGIN TRAN
 GO
 ALTER
 --CREATE
-TRIGGER comprobarSiPeriodoApuestasTipo1EstaAbierto 
-ON APUESTATIPO1
+TRIGGER comprobarSiPeriodoApuestasEstaAbierto 
+ON APUESTAS
 AFTER INSERT, UPDATE AS
 BEGIN
 	IF EXISTS
@@ -20,7 +20,7 @@ BEGIN
 		FROM inserted as I
 		inner join Partidos as P
 		on I.idPartido = P.id
-		WHERE P.isAbierto = 0	//si existen inserciones que estén relacionadas con partidos con el cupo cerrado
+		WHERE P.isAbierto = 1	--si existen inserciones que estén relacionadas con partidos con el cupo cerrado
 		)
 	BEGIN
 		RAISERROR('EL PERIODO DE APUESTAS ESTA CERRADO',16,1)
