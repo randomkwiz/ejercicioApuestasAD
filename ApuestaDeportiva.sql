@@ -35,7 +35,7 @@ CREATE TABLE Partidos
 	maxApuesta2 INT NOT NULL,
 	maxApuesta3 INT NOT NULL,
 	fechaPartido SMALLDATETIME null,
-	idCompeticion INT IDENTITY,
+	idCompeticion INT not null,
 
 	---------------pk------------------------------------
 	constraint PK_Partidos PRIMARY KEY (id),
@@ -112,7 +112,7 @@ go
 
 CREATE TABLE Cuentas
 (
-	id INT IDENTITY not null,
+	id INT IDENTITY(1,1) not null,
 	saldo INT NOT NULL,
 	fechaYHora SMALLDATETIME NOT NULL,
 	correoUsuario CHAR(30),
