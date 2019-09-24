@@ -167,8 +167,8 @@ select * from APUESTAS
 	go
 	USE ApuestasDeportivas
 	GO
-ALTER
---CREATE 
+--ALTER
+CREATE 
 FUNCTION 
 cuantoDineroHayApostadoAUnPartido (@IDPartido UNIQUEIDENTIFIER, @tipoApuesta int)
 	RETURNS INT AS
@@ -183,9 +183,8 @@ cuantoDineroHayApostadoAUnPartido (@IDPartido UNIQUEIDENTIFIER, @tipoApuesta int
 		WHERE @IDPARTIDO = P.ID
 		AND @TIPOAPUESTA = A.TIPO)
 
-	RETURN (SELECT @RESULTADO)
+	RETURN (@RESULTADO)
 	END
-	
 go
 
 
