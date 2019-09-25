@@ -11,14 +11,15 @@ insert into Usuarios(correo,contraseña,saldoActual)
 values('nzhdeh@gmail.com','1234',50)
 go
 insert into Competiciones(id,nombre,año)
-values(1,'La champion',2018)
+values(NEWID(),'La champion',2018)
+go
+select * from Competiciones
+insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion)
+values(NEWID(),2,1,1,50,100,150,'2018-05-10 00:00:00','AE952B40-F84C-46EA-9738-5AED07B55642')
+go
 go
 insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion)
-values(NEWID(),0,0,1,50,100,150,'2018-05-10 00:00:00',1)
-go
-go
-insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion)
-values(NEWID(),0,0,0,50,100,150,'2018-05-12 00:00:00',1)
+values(NEWID(),0,0,0,50,100,150,'2018-05-12 00:00:00','AE952B40-F84C-46EA-9738-5AED07B55642')
 go
 --drop trigger comprobarSiPeriodoApuestasEstaAbierto
 BEGIN TRAN
