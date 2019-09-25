@@ -45,12 +45,17 @@ END
 go
 begin tran
 insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--funciona
-values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','82274901-D2D2-4508-8AF8-2E6736BA6A40',1)
+values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','BA63955A-E6D6-440D-8994-2EC60A089BD9',1)
 rollback
+commit
+
+insert into ApuestaTipo1 (id, NumGolesLocal, numGolesVisitante)
+values('593DB2FE-BBE3-4D0C-83DF-29C50EA78076', 5, 3)
+
 go
 begin tran
 insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)--debe fallar
-values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','05D6A2C4-68FE-4FC2-BB17-309B3BF44529',1)
+values(NEWID(),3.5,'2018-05-10 00:00:00',5,'nzhdeh@gmail.com','BA63955A-E6D6-440D-8994-2EC60A089BD9',1)
 rollback
 select * from Partidos
 

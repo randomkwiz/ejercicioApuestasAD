@@ -9,3 +9,4 @@ Restricciones y triggers
 -controlar que una apuesta registrada no pueda cambiarse ni borrarse --hecho
 -controlar el maximo de apuestas
 
+-restar directamente el dinero que le cueste la apuesta
