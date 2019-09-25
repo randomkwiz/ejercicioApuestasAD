@@ -168,6 +168,7 @@ select * from APUESTAS
 	go
 	USE ApuestasDeportivas
 	GO
+--drop
 --ALTER
 CREATE 
 FUNCTION 
@@ -187,16 +188,18 @@ cuantoDineroHayApostadoAUnPartido (@IDPartido UNIQUEIDENTIFIER, @tipoApuesta int
 	RETURN (@RESULTADO)
 	END
 go
+SELECT dbo.cuantoDineroHayApostadoAUnPartido('82274901-D2D2-4508-8AF8-2E6736BA6A40',1) as Suma
 
-
+select * from APUESTAS
+select * from Partidos
 --Trigger que, sabiendo cuántas apuestas hay ya para un partido, no deje añadir más si se ha llegado al maximo.
 
 /*SOLO VALE SI HACES LAS INSERCIONES DE UNA EN UNA*/
 GO
 BEGIN TRAN
 GO
-ALTER
---CREATE
+--ALTER
+CREATE
 TRIGGER comprobarSiSeHaAlcanzadoElMaximo
 ON APUESTAS
 AFTER INSERT AS
@@ -244,4 +247,12 @@ BEGIN
 	ROLLBACK
 	END
 END
+go
+begin tran
+insert into APUESTAS(ID,CUOTA,FECHAHORAAPUESTA,DINEROAPOSTADO,CORREOUSUARIO,IDPARTIDO,TIPO)
+values(NEWID(),3.5,'2018-06-10 00:00:00',50,'nzhdeh@gmail.com','82274901-D2D2-4508-8AF8-2E6736BA6A40',2)
+rollback
 
+select * from APUESTAS
+
+select * from ApuestaTipo1
