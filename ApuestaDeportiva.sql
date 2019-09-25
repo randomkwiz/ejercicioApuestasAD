@@ -1,4 +1,5 @@
-create database ApuestasDeportivas
+create 
+database ApuestasDeportivas
 go
 use ApuestasDeportivas
 go
@@ -16,7 +17,7 @@ go
 
 CREATE TABLE Competiciones
 (
-	id INT not null,
+	id UNIQUEIDENTIFIER not null,
 	nombre VARCHAR(20) NOT NULL,
 	año INT,
 
@@ -35,7 +36,7 @@ CREATE TABLE Partidos
 	maxApuesta2 INT NOT NULL,
 	maxApuesta3 INT NOT NULL,
 	fechaPartido SMALLDATETIME null,
-	idCompeticion INT not null,
+	idCompeticion uniqueidentifier not null,
 
 	---------------pk------------------------------------
 	constraint PK_Partidos PRIMARY KEY (id),
@@ -129,23 +130,23 @@ go
 alter table Usuarios add constraint CK_SaldoActual check (SaldoActual >=0)
 go
 
-begin transaction
+--begin transaction
 
-insert into Usuarios values 
-('nzhdeh@gmail','89999',55)
-go
-insert into Usuarios values 
-('nzhdehgmail.com','89999',55)
-go
-insert into Usuarios values 
-('nzhdeh@gmail.com         ','89999',55)
-go
-insert into Usuarios values 
-('nzhdeh@gmail.com         ','89999',-5)
-go
-insert into Usuarios values 
-('nzhdeh@gmail.com         ','89999',55)
-go
-rollback
+--insert into Usuarios values 
+--('nzhdeh@gmail','89999',55)
+--go
+--insert into Usuarios values 
+--('nzhdehgmail.com','89999',55)
+--go
+--insert into Usuarios values 
+--('nzhdeh@gmail.com         ','89999',55)
+--go
+--insert into Usuarios values 
+--('nzhdeh@gmail.com         ','89999',-5)
+--go
+--insert into Usuarios values 
+--('nzhdeh@gmail.com         ','89999',55)
+--go
+--rollback
 
-select * from Usuarios
+--select * from Usuarios
