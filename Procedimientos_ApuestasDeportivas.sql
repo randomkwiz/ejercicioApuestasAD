@@ -71,6 +71,23 @@ select * from Partidos
 
 /*PROCEDIMIENTOS */
 
+--Funcion al que pasaremos el id de una apuesta y el correo de un usuario y nos devolvera el tipo de esa apuesta
+
+create function FN_TipoApuesta(@IDApuesta uniqueidentifier,@CorreoUsusario char(30))
+returns tinyint as
+begin
+	declare @Tipo as tinyint
+
+	set @Tipo=(select Tipo from Apuestas
+				where @IDApuesta=ID and @CorreoUsusario=CORREOUSUARIO)
+
+	return @Tipo
+end
+go
+declare @ret tinyint
+set @ret = dbo.FN_TipoApuesta('71207D26-3402-4845-B69B-75560A8F8917','nzhdeh@gmail.com')
+print @ret
+
 /*HAY QUE ACTUALIZAR EL SALDO DE LAS CUENTAS DE LOS USUARIOS Y LOS MOVIMIENTOS DE SUS CUENTAS en caso
 de que ganen una apuesta*/
 
