@@ -92,6 +92,27 @@ print @ret
 de que ganen una apuesta*/
 
 
+go
+create table #VarTipoTabla(
+    IDApuesta uniqueidentifier,
+	TipoApuesta tinyint
+)
+
+insert into #VarTipoTabla (IDApuesta,TipoApuesta)
+select ID,Tipo from Apuestas
+where IDPartido='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'  and IsGanador!=1
+
+--select * from #VarTipoTabla
+
+
+create trigger T_ActualizarGanador on Partidos
+after insert as
+begin
+	
+end
+go
+
+
 ALTER
 --CREATE
 PROCEDURE actualizarSaldosEntidadUsuarios (@IDPARTIDO UNIQUEIDENTIFIER)
