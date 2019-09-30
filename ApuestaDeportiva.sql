@@ -52,7 +52,7 @@ CREATE TABLE Apuestas (
 	Cuota TINYINT NOT NULL,
 	FechaHoraApuesta SMALLDATETIME NOT NULL,
 	DineroApostado SMALLMONEY NOT NULL,
-	CorreoUsuarioO CHAR(30) NOT NULL,
+	CorreoUsuario CHAR(30) NOT NULL,
 	IDPartido UNIQUEIDENTIFIER NOT NULL,
 	Tipo TINYINT NOT NULL,
 	IsGanador bit NULL,--1 si es ganador y 0 si no lo es
