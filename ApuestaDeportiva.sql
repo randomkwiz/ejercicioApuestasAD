@@ -55,7 +55,7 @@ CREATE TABLE Apuestas (
 	CorreoUsuario CHAR(30) NOT NULL,
 	IDPartido UNIQUEIDENTIFIER NOT NULL,
 	Tipo TINYINT NOT NULL,
-	IsGanador bit NULL,--1 si es ganador y 0 si no lo es
+	IsGanador bit NOT NULL default 0,--1 si es ganador y 0 si no lo es
 
 	CONSTRAINT PK_APUESTA PRIMARY KEY (ID),
 	CONSTRAINT FK_APUESTA_USUARIO FOREIGN KEY (CORREOUSUARIO) REFERENCES USUARIOS(CORREO) 
