@@ -73,13 +73,13 @@ select * from Partidos
 
 --Funcion al que pasaremos el id de una apuesta y el correo de un usuario y nos devolvera el tipo de esa apuesta
 
-create function FN_TipoApuesta(@IDApuesta uniqueidentifier,@CorreoUsusario char(30))
+create function FN_TipoApuesta(@IDApuesta uniqueidentifier)
 returns tinyint as
 begin
 	declare @Tipo as tinyint
 
 	set @Tipo=(select Tipo from Apuestas
-				where @IDApuesta=ID and @CorreoUsusario=CORREOUSUARIO)
+				where @IDApuesta=ID)
 
 	return @Tipo
 end
