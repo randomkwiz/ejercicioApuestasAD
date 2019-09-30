@@ -1,7 +1,7 @@
 
 USE ApuestasDeportivas
 GO
-
+--drop database ApuestasDeportivas
 
 --select * from Partidos
 
