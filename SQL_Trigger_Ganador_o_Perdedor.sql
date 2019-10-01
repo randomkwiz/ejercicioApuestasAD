@@ -22,18 +22,35 @@ SELECT dbo.GananciaDeUnUsuarioConUnaApuesta(4,3) as prueba
 -----------------
 
 /*Trigger  que comprueba si el usuario es ganador o perdedor y actualiza su saldo*/
-
-CREATE TRIGGER TR_esGanador 
-	ON usuarios --Porque modificará el valor del atributo isGanador en la tabla Apuestas
-	FOR INSERT --entiendo que deberá hacer la comprobación antes del insert
+go
+ALTER
+--CREATE 
+TRIGGER TR_esGanador 
+	ON Apuestas 
+	after insert, update
 	AS 
-	IF  (select isGanador from Apuestas) = 1
+	begin
+	IF  ((
+	select isGanador 
+	from inserted as I
+	inner join Usuarios as U
+	on I.CorreoUsuario = U.correo
+	where I.CorreoUsuario = U.correo) = 1)
 	BEGIN
-		UPDATE usuarios set saldoActual = 
-		RAISERROR ('El usuario no ha ganado la apuesta', 16, 1)
+		UPDATE usuarios 
+		set saldoActual = (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
+	from inserted as I
+	inner join Usuarios as U
+	on I.CorreoUsuario = U.correo
+	where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
+	from inserted as I
+	inner join Usuarios as U
+	on I.CorreoUsuario = U.correo
+	where I.CorreoUsuario = U.correo)) as prueba	)
 	END
 
-
+	end
+go
 	---------------
 
 	/*Procedimiento que recibe correo del usuario y una nueva cantidad para que el usuario pueda añadir más dinero*/
