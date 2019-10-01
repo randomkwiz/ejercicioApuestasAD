@@ -55,10 +55,16 @@ insert into Usuarios (correo, contraseña, saldoActual)
 values('pepe@gmail.com', '123', 100)
 
 insert into APUESTAS(ID, CUOTA, FECHAHORAAPUESTA, DINEROAPOSTADO, CORREOUSUARIO, IDPARTIDO, TIPO)
-values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', '7DDD9447-9C2B-4762-A482-4D5BC3F7CD73', 1)
+values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', '47B61C3C-AC7B-48AA-AF01-4FD05FD43506', 1)
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'F93DB868-F41F-42D4-8C80-78D0DB24846A')
+values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
+
+insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
+values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
+
+insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
+values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
 
 insert into Competiciones(id, nombre, año)
 values(NEWID(), 'Copa', 2010)
@@ -93,17 +99,17 @@ de que ganen una apuesta*/
 
 
 go
-create table #VarTipoTabla(
+declare @VarTipoTabla table(
     IDApuesta uniqueidentifier,
 	TipoApuesta tinyint
 )
 
-insert into #VarTipoTabla (IDApuesta,TipoApuesta)
+insert into @VarTipoTabla (IDApuesta,TipoApuesta)
 select ID,Tipo from Apuestas
-where IDPartido='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'  and IsGanador!=1
+where IDPartido='47B61C3C-AC7B-48AA-AF01-4FD05FD43506'  and IsGanador!=1
 
---select * from #VarTipoTabla
-
+--select * from @VarTipoTabla
+select * from Partidos
 
 create trigger T_ActualizarGanador on Partidos
 after insert as
