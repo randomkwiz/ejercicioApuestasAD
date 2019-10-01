@@ -60,7 +60,7 @@ go
 	PROCEDURE anadirMasDinero (@correoUsuario char(30), @cantidadNueva int)
 	AS
 	BEGIN
-		UPDATE usuarios --No tengo claro si tengo que añadirlo en usuarios o en cuentas, o da igual
+		UPDATE usuarios 
 		SET saldoActual = saldoActual + @cantidadNueva 
 		WHERE correo = @correoUsuario
 	END
