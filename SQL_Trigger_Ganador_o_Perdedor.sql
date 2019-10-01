@@ -38,15 +38,16 @@ TRIGGER TR_esGanador
 	where I.CorreoUsuario = U.correo) = 1)
 	BEGIN
 		UPDATE usuarios 
-		set saldoActual = (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
-	from inserted as I
-	inner join Usuarios as U
-	on I.CorreoUsuario = U.correo
-	where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
-	from inserted as I
-	inner join Usuarios as U
-	on I.CorreoUsuario = U.correo
-	where I.CorreoUsuario = U.correo)) as prueba	)
+		set saldoActual = saldoActual + (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
+			from inserted as I
+			inner join Usuarios as U
+			on I.CorreoUsuario = U.correo
+			where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
+			from inserted as I
+			inner join Usuarios as U
+			on I.CorreoUsuario = U.correo
+			where I.CorreoUsuario = U.correo)) as prueba	)
+		where Usuarios.correo = (select CorreoUsuario from inserted)
 	END
 
 	end
@@ -54,13 +55,21 @@ go
 	---------------
 
 	/*Procedimiento que recibe correo del usuario y una nueva cantidad para que el usuario pueda añadir más dinero*/
-
-	CREATE PROCEDURE anadirMasDinero (@correoUsuario char, @cantidadNueva int)
+	ALTER
+	--CREATE 
+	PROCEDURE anadirMasDinero (@correoUsuario char(30), @cantidadNueva int)
 	AS
 	BEGIN
 		UPDATE usuarios --No tengo claro si tengo que añadirlo en usuarios o en cuentas, o da igual
-		SET saldoActual = @cantidadNueva 
+		SET saldoActual = saldoActual + @cantidadNueva 
 		WHERE correo = @correoUsuario
 	END
+
+	exec dbo.anadirMasDinero @correoUsuario = 'angelavazquez@gmail.com', @cantidadNueva = 50
+
+	select * from Usuarios
+	select * from Cuentas
+
+
 
 
