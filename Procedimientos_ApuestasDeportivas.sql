@@ -55,16 +55,16 @@ insert into Usuarios (correo, contraseña, saldoActual)
 values('pepe@gmail.com', '123', 100)
 
 insert into APUESTAS(ID, CUOTA, FECHAHORAAPUESTA, DINEROAPOSTADO, CORREOUSUARIO, IDPARTIDO, TIPO)
-values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', '47B61C3C-AC7B-48AA-AF01-4FD05FD43506', 1)
+values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', 'F3705281-53F3-4E69-B7DD-3AFF4C93EDFA', 1)
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
+values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
+values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'1C4455BA-7327-41F6-8520-6770344CE436')
+values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
 
 insert into Competiciones(id, nombre, año)
 values(NEWID(), 'Copa', 2010)
@@ -110,13 +110,67 @@ where IDPartido='47B61C3C-AC7B-48AA-AF01-4FD05FD43506'  and IsGanador!=1
 
 --select * from @VarTipoTabla
 select * from Partidos
+go
 
 create trigger T_ActualizarGanador on Partidos
-after insert as
+after update as
 begin
-	
+	declare @IDPartido uniqueidentifier,
+			@Tipo tinyint,
+			@ResLocal tinyint,
+			@ResVisitante tinyint,
+			@ApostadoResLocal tinyint,
+			@ApostadoResVisitante tinyint
+
+	select @IDPartido=id from inserted
+
+	select @Tipo=Tipo from Apuestas
+	where @IDPartido=IDPartido
+
+	select @ResLocal=resultadoLocal,@ResVisitante=resultadoVisitante from Partidos
+	where @IDPartido=id
+
+	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante from Apuestas as A
+	inner join ApuestaTipo1 as AT1 on A.ID=AT1.id
+	where @IDPartido=A.IDPartido
+
+
+	if @Tipo=1
+	begin
+		if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+	end
+
+	if @Tipo=2
+	begin
+		if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+	end
 end
 go
+
+begin tran
+update Partidos
+set resultadoLocal=2,
+	resultadoVisitante=1
+where id='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'
+
+rollback
+
+select * from Partidos
+select * from Apuestas
+
+
+insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
+values('36104B77-6DD5-4366-973C-1C077DDCFCA6',2,1)
 
 
 ALTER
