@@ -54,17 +54,17 @@ values('angelavazquez@gmail.com', '123', 100)
 insert into Usuarios (correo, contraseña, saldoActual)
 values('pepe@gmail.com', '123', 100)
 
-insert into APUESTAS(ID, CUOTA, FECHAHORAAPUESTA, DINEROAPOSTADO, CORREOUSUARIO, IDPARTIDO, TIPO)
-values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', 'F3705281-53F3-4E69-B7DD-3AFF4C93EDFA', 1)
+insert into Apuestas(ID, CUOTA, FECHAHORAAPUESTA, DINEROAPOSTADO, CORREOUSUARIO, IDPARTIDO, TIPO)
+values(NEWID(), 1, CURRENT_TIMESTAMP, 15, 'lolo@gmail.com', '2B0981F4-EE1C-4EB0-861F-4EE5C2D06B6C', 1)
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
+values(NEWID(), 5,3,1,5000,2500,1600,'5FAAF209-1955-4620-A6CC-C2DA69052279')
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
+values(NEWID(), 5,3,1,5000,2500,1600,'5FAAF209-1955-4620-A6CC-C2DA69052279')
 
 insert into Partidos(id, resultadoLocal, resultadoVisitante, isAbierto, maxApuesta1, maxApuesta2, maxApuesta3, idCompeticion)
-values(NEWID(), 5,3,1,5000,2500,1600,'DF131A2D-B68D-47A7-9C8E-394BFD3C4B97')
+values(NEWID(), 5,3,1,5000,2500,1600,'5FAAF209-1955-4620-A6CC-C2DA69052279')
 
 insert into Competiciones(id, nombre, año)
 values(NEWID(), 'Copa', 2010)
