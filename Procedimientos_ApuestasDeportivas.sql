@@ -98,15 +98,15 @@ print @ret
 de que ganen una apuesta*/
 
 
-go
-declare @VarTipoTabla table(
-    IDApuesta uniqueidentifier,
-	TipoApuesta tinyint
-)
+--go
+--declare @VarTipoTabla table(
+--    IDApuesta uniqueidentifier,
+--	TipoApuesta tinyint
+--)
 
-insert into @VarTipoTabla (IDApuesta,TipoApuesta)
-select ID,Tipo from Apuestas
-where IDPartido='47B61C3C-AC7B-48AA-AF01-4FD05FD43506'  and IsGanador!=1
+--insert into @VarTipoTabla (IDApuesta,TipoApuesta)
+--select ID,Tipo from Apuestas
+--where IDPartido='47B61C3C-AC7B-48AA-AF01-4FD05FD43506'  and IsGanador!=1
 
 --select * from @VarTipoTabla
 select * from Partidos
