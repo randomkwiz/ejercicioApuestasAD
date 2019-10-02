@@ -124,7 +124,7 @@ begin
 			@NombreEquipo varchar(10),
 			@ApostadoResLocalTipo2 tinyint,
 			@ApostadoResVisitanteTipo2 tinyint,
-			@EquipoGanador varchar(10),
+			@EquipoGanador varchar(10)
 
 	select @IDPartido=id from inserted
 
@@ -214,7 +214,7 @@ select * from Apuestas
 
 
 insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
-values('36104B77-6DD5-4366-973C-1C077DDCFCA6',2,1)
+values('9A04FEB6-05B3-463A-90A8-0955AB39496A',2,1)
 
 
 ALTER
