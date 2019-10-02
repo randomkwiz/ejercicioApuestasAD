@@ -120,7 +120,11 @@ begin
 			@ResLocal tinyint,
 			@ResVisitante tinyint,
 			@ApostadoResLocal tinyint,
-			@ApostadoResVisitante tinyint
+			@ApostadoResVisitante tinyint,
+			@NombreEquipo varchar(10),
+			@ApostadoResLocalTipo2 tinyint,
+			@ApostadoResVisitanteTipo2 tinyint,
+			@EquipoGanador varchar(10),
 
 	select @IDPartido=id from inserted
 
@@ -132,6 +136,18 @@ begin
 
 	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante from Apuestas as A
 	inner join ApuestaTipo1 as AT1 on A.ID=AT1.id
+	where @IDPartido=A.IDPartido
+
+	select @NombreEquipo from Apuestas as A
+	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
+	where @IDPartido=A.IDPartido
+
+	select @NombreEquipo from Apuestas as A
+	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
+	where @IDPartido=A.IDPartido
+
+	select @EquipoGanador from Apuestas as A
+	inner join ApuestaTipo3 as AT3 on A.ID=AT3.id
 	where @IDPartido=A.IDPartido
 
 
@@ -147,7 +163,35 @@ begin
 
 	if @Tipo=2
 	begin
-		if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
+		if @NombreEquipo='Local'
+		begin
+			if @ApostadoResLocalTipo2=@ResLocal
+			begin
+				update Apuestas
+				set IsGanador=1
+				where IDPartido=@IDPartido
+			end
+		end
+		else if @NombreEquipo='Visitante'
+		begin
+			if @ApostadoResVisitanteTipo2=@ResVisitante
+			begin
+				update Apuestas
+				set IsGanador=1
+				where IDPartido=@IDPartido
+			end
+		end
+	end
+
+	if @Tipo=3
+	begin
+		if @EquipoGanador='Local'
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+		else if @NombreEquipo='Visitante'
 		begin
 			update Apuestas
 			set IsGanador=1
