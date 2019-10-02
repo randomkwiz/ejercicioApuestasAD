@@ -49,20 +49,22 @@ TRIGGER TR_esGanador
 				--TODO: HAY QUE TERMINARLO
 
 				BEGIN
-					UPDATE usuarios 
-				--declarar las variables esta mas bonito
-				set saldoActual = saldoActual + (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
-						--revisarlo
-						
-						from inserted as I
-						inner join Usuarios as U
-						on I.CorreoUsuario = U.correo
-						where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
+
+				DECLARE @cuota INT = (select A.Cuota from inserted as I
+										inner join Apuestas as A
+										on I.id = A.IDPartido 
+										
+										)
+				DECLARE @dineroApostado INT = (select dineroApostado 
 						from inserted as I
 						inner join Usuarios as U
 						on I.CorreoUsuario = U.correo
 						where I.CorreoUsuario = U.correo)) as prueba	)
-		where Usuarios.correo = (select CorreoUsuario from inserted)
+
+					UPDATE usuarios 
+						--declarar las variables esta mas bonito
+					set saldoActual = saldoActual +  SELECT dbo.GananciaDeUnUsuarioConUnaApuesta(@cuota, @dineroApostado);
+					where Usuarios.correo = (select CorreoUsuario from inserted)
 	END
 
 
