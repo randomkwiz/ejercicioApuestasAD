@@ -205,7 +205,7 @@ begin tran
 update Partidos
 set resultadoLocal=2,
 	resultadoVisitante=1
-where id='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'
+where id='F8867B36-B768-413E-AF0C-1CFEA5312A82'
 
 rollback
 
