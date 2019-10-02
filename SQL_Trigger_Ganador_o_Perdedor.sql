@@ -26,30 +26,49 @@ go
 ALTER
 --CREATE 
 TRIGGER TR_esGanador 
-	ON Apuestas 
-	after insert, update
+	ON Partidos 
+	after update
+	/*Hay que hacerlo sobre Partidos, porque Apuestas no se puede actualizar y al crearla no se sabe si ha ganado o no*/
 	AS 
 	begin
-	IF  ((
-	select isGanador 
-	from inserted as I
-	inner join Usuarios as U
-	on I.CorreoUsuario = U.correo
-	where I.CorreoUsuario = U.correo) = 1)
-	BEGIN
-		UPDATE usuarios 
-		set saldoActual = saldoActual + (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
-			from inserted as I
-			inner join Usuarios as U
-			on I.CorreoUsuario = U.correo
-			where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
-			from inserted as I
-			inner join Usuarios as U
-			on I.CorreoUsuario = U.correo
-			where I.CorreoUsuario = U.correo)) as prueba	)
+	if exists  (select resultadoLocal from inserted)  
+	begin
+			if exists (select resultadoVisitante from inserted)
+			begin
+			IF  ((
+				select isGanador 
+				from Apuestas as I
+				inner join Usuarios as U
+				on I.CorreoUsuario = U.correo
+				inner join inserted as x
+				on x.id = i.IDPartido
+				where I.CorreoUsuario = U.correo
+				and x.ID = I.IDPartido
+				) = 1)
+				
+				--TODO: HAY QUE TERMINARLO
+
+				BEGIN
+					UPDATE usuarios 
+				--declarar las variables esta mas bonito
+				set saldoActual = saldoActual + (	SELECT dbo.GananciaDeUnUsuarioConUnaApuesta( (select cuota 
+						--revisarlo
+						
+						from inserted as I
+						inner join Usuarios as U
+						on I.CorreoUsuario = U.correo
+						where I.CorreoUsuario = U.correo)  ,(select dineroApostado 
+						from inserted as I
+						inner join Usuarios as U
+						on I.CorreoUsuario = U.correo
+						where I.CorreoUsuario = U.correo)) as prueba	)
 		where Usuarios.correo = (select CorreoUsuario from inserted)
 	END
 
+
+
+			end
+	end
 	end
 go
 	---------------
@@ -71,5 +90,17 @@ go
 	select * from Cuentas
 
 
+	go
 
+	---------------------
+	/*Procedimiento para sacar dinero*/
 
+		ALTER
+	--CREATE 
+	PROCEDURE sacarDinero (@correoUsuario char(30), @cantidadASacar int)
+	AS
+	BEGIN
+		UPDATE usuarios 
+		SET saldoActual = saldoActual - @cantidadASacar
+		WHERE correo = @correoUsuario
+	END
