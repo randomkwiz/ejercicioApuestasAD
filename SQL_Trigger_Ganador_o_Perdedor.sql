@@ -45,26 +45,37 @@ TRIGGER TR_esGanador
 				where I.CorreoUsuario = U.correo
 				and x.ID = I.IDPartido
 				) = 1)
-				
-				--TODO: HAY QUE TERMINARLO
 
 				BEGIN
 
-				DECLARE @cuota INT = (select A.Cuota from inserted as I
-										inner join Apuestas as A
-										on I.id = A.IDPartido 
-										
-										)
-				DECLARE @dineroApostado INT = (select dineroApostado 
-						from inserted as I
-						inner join Usuarios as U
-						on I.CorreoUsuario = U.correo
-						where I.CorreoUsuario = U.correo)) as prueba	)
+				--variable tipo tabla que recoge cuota, dinero apostado y usuario de las apuestas ganadoras
+				DECLARE @cuota TABLE (usuario char(30),cuota tinyint, dineroApostado smallmoney );
+				INSERT INTO @cuota
+				SELECT A.CorreoUsuario, SUM(A.cuota * A.dineroApostado) AS CANTIDAD_A_ANADIR
+				from inserted as I
+				inner join Apuestas as A
+				on I.id = A.IDPartido 
+				where I.id = A.IDPartido AND A.IsGanador = 1
+				GROUP BY A.CorreoUsuario
 
-					UPDATE usuarios 
-						--declarar las variables esta mas bonito
-					set saldoActual = saldoActual +  SELECT dbo.GananciaDeUnUsuarioConUnaApuesta(@cuota, @dineroApostado);
-					where Usuarios.correo = (select CorreoUsuario from inserted)
+
+				/*nota: puedo hacer una consulta que agrupe los datos de la tabla @cuota 
+				por usuario y sume todas las cantidades a añadir
+				y quede algo asi:
+				Usuario		CantidadAAñadir
+				pepe		156 euros
+
+				y asi hago el update mas facilmente
+
+				*/
+				
+				
+				--revisar esto
+				--ahora hay que actualizar el saldo de los usuarios
+				UPDATE usuarios 
+					set saldoActual = saldoActual + (Select CANTIDAD_A_ANADIR
+													from @cuota ) 
+					where Usuarios.correo = (select usuario from @cuota)
 	END
 
 
