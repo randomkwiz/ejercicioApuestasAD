@@ -225,16 +225,6 @@ insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
 values('9A04FEB6-05B3-463A-90A8-0955AB39496A',2,1)
 
 
-ALTER
---CREATE
-PROCEDURE actualizarSaldosEntidadUsuarios (@IDPARTIDO UNIQUEIDENTIFIER)
-AS
-BEGIN
-	
-
-END
-
-
 /*Despues se hace un trigger para que cada vez que se actualice la tabla usuario con el saldo, ese movimiento quede grabado en la entidad
 cuenta*/
 
