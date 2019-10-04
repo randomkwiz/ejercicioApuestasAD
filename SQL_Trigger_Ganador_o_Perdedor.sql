@@ -51,11 +51,11 @@ TRIGGER TR_esGanador
 				--variable tipo tabla que recoge cuota, dinero apostado y usuario de las apuestas ganadoras
 				DECLARE @cuota TABLE (usuario char(30),cuota tinyint, dineroApostado smallmoney );
 				INSERT INTO @cuota
-				SELECT A.CorreoUsuario, SUM(A.cuota * A.dineroApostado) AS CANTIDAD_A_ANADIR
+				SELECT A.CorreoUsuario, A.cuota , A.dineroApostado
 				from inserted as I
 				inner join Apuestas as A
 				on I.id = A.IDPartido 
-				where I.id = A.IDPartido AND A.IsGanador = 1
+				where I.id = A.IDPartido AND A.isGanador = 1
 				GROUP BY A.CorreoUsuario
 
 
@@ -73,9 +73,11 @@ TRIGGER TR_esGanador
 				--revisar esto
 				--ahora hay que actualizar el saldo de los usuarios
 				UPDATE usuarios 
-					set saldoActual = saldoActual + (Select CANTIDAD_A_ANADIR
-													from @cuota ) 
-					where Usuarios.correo = (select usuario from @cuota)
+					set saldoActual = U.saldoActual + SUM(C.cuota * C.dineroApostado)
+					from Usuarios as U
+					inner join @cuota as C
+					on U.correo = C.usuario
+										
 	END
 
 
