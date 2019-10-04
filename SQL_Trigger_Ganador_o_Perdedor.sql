@@ -31,60 +31,19 @@ TRIGGER TR_esGanador
 	/*Hay que hacerlo sobre Partidos, porque Apuestas no se puede actualizar y al crearla no se sabe si ha ganado o no*/
 	AS 
 	begin
-	if exists  (select resultadoLocal from inserted)  
-	begin
-			if exists (select resultadoVisitante from inserted)
-			begin
-			IF  ((
-				select isGanador 
-				from Apuestas as I
-				inner join Usuarios as U
-				on I.CorreoUsuario = U.correo
-				inner join inserted as x
-				on x.id = i.IDPartido
-				where I.CorreoUsuario = U.correo
-				and x.ID = I.IDPartido
-				) = 1)
-
-				BEGIN
-
-				--variable tipo tabla que recoge cuota, dinero apostado y usuario de las apuestas ganadoras
-				DECLARE @cuota TABLE (usuario char(30),cuota tinyint, dineroApostado smallmoney );
-				INSERT INTO @cuota
-				SELECT A.CorreoUsuario, A.cuota , A.dineroApostado
-				from inserted as I
-				inner join Apuestas as A
-				on I.id = A.IDPartido 
-				where I.id = A.IDPartido AND A.isGanador = 1
-				GROUP BY A.CorreoUsuario
-
-
-				/*nota: puedo hacer una consulta que agrupe los datos de la tabla @cuota 
-				por usuario y sume todas las cantidades a añadir
-				y quede algo asi:
-				Usuario		CantidadAAñadir
-				pepe		156 euros
-
-				y asi hago el update mas facilmente
-
-				*/
-				
-				
-				--revisar esto
-				--ahora hay que actualizar el saldo de los usuarios
-				UPDATE usuarios 
-					set saldoActual = U.saldoActual + SUM(C.cuota * C.dineroApostado)
-					from Usuarios as U
-					inner join @cuota as C
-					on U.correo = C.usuario
-										
-	END
-
-
-
-			end
+		if update (resultadoLocal) and update (resultadoVisitante) 
+				begin		
+					UPDATE usuarios 
+						set saldoActual += (A.cuota * A.dineroApostado)
+						from Apuestas as A						
+						inner join inserted as I
+						on I.id = A.IDPartido
+						where A.IsGanador = 1
+						and correo = A.CorreoUsuario
+				end
 	end
-	end
+GO
+sp_settriggerorder @triggername='TR_esGanador' , @order='Last', @stmttype = 'UPDATE'
 go
 	---------------
 
