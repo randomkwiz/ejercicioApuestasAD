@@ -3,24 +3,25 @@ use ApuestasDeportivas
 go
 
 --delete from Usuarios
-insert into Usuarios(correo,contraseña,saldoActual) 
+select * from Usuarios
+insert into Usuarios(correo,contraseÃ±a,saldoActual) 
 values ('juanperez@gmail.com', 230, 200 )
 go
-insert into Usuarios(correo,contraseña,saldoActual) 
+insert into Usuarios(correo,contraseÃ±a,saldoActual) 
 values ('lauraortiz@gmail.com', 245, 300 )
 go
-insert into Usuarios(correo,contraseña,saldoActual) 
+insert into Usuarios(correo,contraseÃ±a,saldoActual) 
 values ('pedrohernandez@gmail.com', 562, 50 )
 go
 
 --select * from Usuarios
-
+select * from Competiciones
 go
-insert into Competiciones(id,nombre,año) values(NEWID(), 'Copa Mundial', 2018)
+insert into Competiciones(id,nombre,aÃ±o) values(NEWID(), 'Copa Mundial', 2018)
 go
-insert into Competiciones(id,nombre,año) values(NEWID(), 'Copa del Rey', 2019)
+insert into Competiciones(id,nombre,aÃ±o) values(NEWID(), 'Copa del Rey', 2019)
 go
-insert into Competiciones(id,nombre,año) values(NEWID(), 'Champions League', 2019)
+insert into Competiciones(id,nombre,aÃ±o) values(NEWID(), 'Champions League', 2019)
 go
 
 
@@ -68,7 +69,7 @@ insert into ApuestaTipo2(id, equipo, goles) values('30373C81-591F-4338-8ED4-24EE
 go
 insert into ApuestaTipo2(id, equipo, goles) values('4263DDA6-FBEA-4A82-82A0-9B8C50BA140B', 'Real Madrid', 3)
 go
-insert into ApuestaTipo2(id, equipo, goles) values('744CEDE7-9A31-434D-8256-FE6BD15916C4', 'Atlético de Madrid', 1)
+insert into ApuestaTipo2(id, equipo, goles) values('744CEDE7-9A31-434D-8256-FE6BD15916C4', 'AtlÃ©tico de Madrid', 1)
 go
 
 --select * from ApuestaTipo3
@@ -84,9 +85,9 @@ go
 --select * from Apuestas
 --select * from Usuarios
 --select * from Cuentas
-insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(, 200,'2019-06-19 10:45:00', 'juanperez@gmail.com')
+insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(200,'2019-06-19 10:45:00', 'juanperez@gmail.com')
 go
-insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(, 300,'2018-05-10 14:25:00', 'lauraortiz@gmail.com')
+insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(300,'2018-05-10 14:25:00', 'lauraortiz@gmail.com')
 go
-insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(, 50,'2019-06-19 12:00:00', 'pedrohernandez@gmail.com')
+insert into Cuentas(id, saldo, fechaYHora, correoUsuario) values(50,'2019-06-19 12:00:00', 'pedrohernandez@gmail.com')
 go
