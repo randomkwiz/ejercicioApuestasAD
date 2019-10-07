@@ -112,8 +112,8 @@ de que ganen una apuesta*/
 select * from Partidos
 go
 
-
-create or alter 
+alter
+--create 
 trigger T_ActualizarGanador on Partidos
 after update as
 begin
@@ -130,23 +130,21 @@ begin
 
 	select @IDPartido=id from inserted
 
-	select @Tipo=Tipo from Apuestas	--mirar esto
+	select @Tipo=Tipo from Apuestas
 	where @IDPartido=IDPartido
 
 	select @ResLocal=resultadoLocal,@ResVisitante=resultadoVisitante from Partidos
 	where @IDPartido=id
 
-	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante 
-	from Apuestas as A
-	inner join ApuestaTipo1 as AT1 
-	on A.ID=AT1.id
+	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante from Apuestas as A
+	inner join ApuestaTipo1 as AT1 on A.ID=AT1.id
 	where @IDPartido=A.IDPartido
 
 	select @NombreEquipo from Apuestas as A
 	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
 	where @IDPartido=A.IDPartido
 
-	select @NombreEquipo from Apuestas as A	
+	select @NombreEquipo from Apuestas as A
 	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
 	where @IDPartido=A.IDPartido
 
@@ -154,82 +152,132 @@ begin
 	inner join ApuestaTipo3 as AT3 on A.ID=AT3.id
 	where @IDPartido=A.IDPartido
 
-	if update(resultadoLocal) or update(resultadoVisitante)
-	begin
-		if @Tipo=1
-		begin
-			if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
-			begin
-				update Apuestas
-				set IsGanador=1
-				where IDPartido=@IDPartido
-			end
-		end
-/*
-		if @Tipo=2
-		begin
-			if @NombreEquipo='Local'
-			begin
-				if @ApostadoResLocalTipo2=@ResLocal
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido
-				end
-			end
-			else if @NombreEquipo='Visitante'
-			begin
-				if @ApostadoResVisitanteTipo2=@ResVisitante
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido
-				end
-			end
-		end
 
-		if @Tipo=3
+	if @Tipo=1
+	begin
+		if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
 		begin
-			if @EquipoGanador='Local' and @ResVisitante<@ResLocal
-			begin
-				update Apuestas
-				set IsGanador=1
-				where IDPartido=@IDPartido
-			end
-			else if @NombreEquipo='Visitante' and @ResVisitante>@ResLocal
-			begin
-				update Apuestas
-				set IsGanador=1
-				where IDPartido=@IDPartido
-			end
-			else if @NombreEquipo='Empate' and @ResVisitante=@ResLocal
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+	end
+
+	if @Tipo=2
+	begin
+		if @NombreEquipo='Local'
+		begin
+			if @ApostadoResLocalTipo2=@ResLocal
 			begin
 				update Apuestas
 				set IsGanador=1
 				where IDPartido=@IDPartido
 			end
 		end
-		*/
-	end	--cierra el if update
-end --cierra el trigger
+		else if @NombreEquipo='Visitante'
+		begin
+			if @ApostadoResVisitanteTipo2=@ResVisitante
+			begin
+				update Apuestas
+				set IsGanador=1
+				where IDPartido=@IDPartido
+			end
+		end
+	end
+
+	if @Tipo=3
+	begin
+		if @EquipoGanador='Local' and @ResVisitante<@ResLocal
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+		else if @NombreEquipo='Visitante' and @ResVisitante>@ResLocal
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+		else if @NombreEquipo='Empate' and @ResVisitante=@ResLocal
+		begin
+			update Apuestas
+			set IsGanador=1
+			where IDPartido=@IDPartido
+		end
+	end
+end
 go
 
 begin tran
 update Partidos
 set resultadoLocal=2,
 	resultadoVisitante=1
-where id='2B0981F4-EE1C-4EB0-861F-4EE5C2D06B6C'
+where id='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'
 
 rollback
 
 select * from Partidos
 select * from Apuestas
-select * from ApuestaTipo1
 
 
 insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
-values('38A49533-1085-4EA7-8201-146AE90F78E1',2,1)
+values('9A04FEB6-05B3-463A-90A8-0955AB39496A',2,1)
 
+--create 
+--alter
+--trigger T_ActualizarGanador on Partidos
+--after update as
+--begin
+--	declare @IDPartido uniqueidentifier,
+--			@ResLocal tinyint,
+--			@ResVisitante tinyint,
+--			@isAbierto bit,
+--			@ApuestaMaxima1 int,
+--			@ApuestaMaxima2 int,
+--			@ApuestaMaxima3 int,
+--			@FechaPartido smalldatetime,
+--			@IdCompeticion uniqueidentifier
+
+--	--declare @Tipo tinyint,
+--	--		@ApostadoResLocal tinyint,
+--	--		@ApostadoResVisitante tinyint,
+--	--		@NombreEquipo varchar(10),
+--	--		@ApostadoResLocalTipo2 tinyint,
+--	--		@ApostadoResVisitanteTipo2 tinyint,
+--	--		@EquipoGanador varchar(10)
+
+--	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion from inserted
+
+--	open miCursor
+
+--	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+
+--	while(@@FETCH_STATUS=0)
+--	begin
+--		if update(resultadoLocal) or update(resultadoVisitante)
+--		begin
+--			if 1=(select Tipo from Apuestas
+--					where @IDPartido=IDPartido)
+--			begin
+--				update Apuestas
+--				set IsGanador=1
+--				where IDPartido=@IDPartido
+--			end--if tipo 1
+--		end--fin if update
+--	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+--	end--fin de while
+--	close miCursor--cerramos
+--	deallocate miCursor--liberamos la memoria
+--end --cierra el trigger
+--go
+--begin tran
+--update Partidos
+--set resultadoLocal=2,
+--	resultadoVisitante=1
+--where id='36104B77-6DD5-4366-973C-1C077DDCFCA6'
+
+--rollback
 
 /*Despues se hace un trigger para que cada vez que se actualice la tabla usuario con el saldo, ese movimiento quede grabado en la entidad
 cuenta*/
