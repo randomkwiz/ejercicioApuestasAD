@@ -65,11 +65,11 @@ insert into ApuestaTipo1(id, NumGolesLocal, numGolesVisitante) values('1B5CFD78-
 go
 
 --select * from ApuestaTipo2
-insert into ApuestaTipo2(id, equipo, goles) values('30373C81-591F-4338-8ED4-24EECA0FAA01', 'Barcelona', 5)
+insert into ApuestaTipo2(id, equipo, goles) values('30373C81-591F-4338-8ED4-24EECA0FAA01', 'visitante', 5)
 go
-insert into ApuestaTipo2(id, equipo, goles) values('4263DDA6-FBEA-4A82-82A0-9B8C50BA140B', 'Real Madrid', 3)
+insert into ApuestaTipo2(id, equipo, goles) values('4263DDA6-FBEA-4A82-82A0-9B8C50BA140B', 'local', 3)
 go
-insert into ApuestaTipo2(id, equipo, goles) values('744CEDE7-9A31-434D-8256-FE6BD15916C4', 'Atlético de Madrid', 1)
+insert into ApuestaTipo2(id, equipo, goles) values('744CEDE7-9A31-434D-8256-FE6BD15916C4', 'local', 1)
 go
 
 --select * from ApuestaTipo3
