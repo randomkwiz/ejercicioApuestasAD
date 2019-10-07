@@ -28,7 +28,7 @@ ALTER
 --CREATE
 TRIGGER comprobarSiPeriodoApuestasEstaAbierto 
 ON APUESTAS
-AFTER INSERT, UPDATE AS
+AFTER INSERT, UPDATE AS	--eliminar update, ya que las apuestas no se pueden actualizar
 BEGIN
 	IF EXISTS
 		(SELECT I.id
@@ -137,17 +137,13 @@ TRIGGER noSeAceptanModificaciones
 ON APUESTAS
 instead of UPDATE, DELETE AS
 BEGIN
-	--if exists (
-	--select I.id
-	--from inserted as I
-	--inner join Apuestas as A
-	--on A.id = I.id
-	--)
-	--BEGIN
+	if update(id) or UPDATE (cuota) or update(fechahoraapuesta) or update(dineroapostado) or update(correousuario) or update(idpartido) or update(tipo)
+	begin
 	RAISERROR('No se pueden modificar ni eliminar apuestas',16,1)
 	ROLLBACK
-	--END
+	END
 END
+
 begin tran
 delete from APUESTAS
 where ID='60784E11-B1FF-466C-A7A5-E2330944301A'

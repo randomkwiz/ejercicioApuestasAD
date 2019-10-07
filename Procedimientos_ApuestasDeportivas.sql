@@ -130,21 +130,23 @@ begin
 
 	select @IDPartido=id from inserted
 
-	select @Tipo=Tipo from Apuestas
+	select @Tipo=Tipo from Apuestas	--mirar esto
 	where @IDPartido=IDPartido
 
 	select @ResLocal=resultadoLocal,@ResVisitante=resultadoVisitante from Partidos
 	where @IDPartido=id
 
-	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante from Apuestas as A
-	inner join ApuestaTipo1 as AT1 on A.ID=AT1.id
+	select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante 
+	from Apuestas as A
+	inner join ApuestaTipo1 as AT1 
+	on A.ID=AT1.id
 	where @IDPartido=A.IDPartido
 
 	select @NombreEquipo from Apuestas as A
 	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
 	where @IDPartido=A.IDPartido
 
-	select @NombreEquipo from Apuestas as A
+	select @NombreEquipo from Apuestas as A	
 	inner join ApuestaTipo2 as AT2 on A.ID=AT2.id
 	where @IDPartido=A.IDPartido
 
@@ -163,7 +165,7 @@ begin
 				where IDPartido=@IDPartido
 			end
 		end
-
+/*
 		if @Tipo=2
 		begin
 			if @NombreEquipo='Local'
@@ -207,15 +209,16 @@ begin
 				where IDPartido=@IDPartido
 			end
 		end
-	end
-end
+		*/
+	end	--cierra el if update
+end --cierra el trigger
 go
 
 begin tran
 update Partidos
 set resultadoLocal=2,
 	resultadoVisitante=1
-where id='F8867B36-B768-413E-AF0C-1CFEA5312A82'
+where id='2B0981F4-EE1C-4EB0-861F-4EE5C2D06B6C'
 
 rollback
 
@@ -225,7 +228,7 @@ select * from ApuestaTipo1
 
 
 insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
-values('9A04FEB6-05B3-463A-90A8-0955AB39496A',2,1)
+values('38A49533-1085-4EA7-8201-146AE90F78E1',2,1)
 
 
 /*Despues se hace un trigger para que cada vez que se actualice la tabla usuario con el saldo, ese movimiento quede grabado en la entidad
