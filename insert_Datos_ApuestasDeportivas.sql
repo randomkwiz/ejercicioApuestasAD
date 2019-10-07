@@ -25,7 +25,7 @@ insert into Competiciones(id,nombre,año) values(NEWID(), 'Champions League', 20
 go
 
 
-select * from competiciones
+--select * from competiciones
 insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion) 
 values(NEWID(), 2, 1, 0, 30, 60, 100,'2018-20-06 12:30:00', 'DC1D216A-6042-4529-BADF-00E9081448D3')
 go
