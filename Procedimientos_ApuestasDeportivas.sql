@@ -112,8 +112,8 @@ de que ganen una apuesta*/
 select * from Partidos
 go
 
-alter
---create 
+
+create or alter 
 trigger T_ActualizarGanador on Partidos
 after update as
 begin
@@ -152,58 +152,60 @@ begin
 	inner join ApuestaTipo3 as AT3 on A.ID=AT3.id
 	where @IDPartido=A.IDPartido
 
-
-	if @Tipo=1
+	if update(resultadoLocal) or update(resultadoVisitante)
 	begin
-		if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
+		if @Tipo=1
 		begin
-			update Apuestas
-			set IsGanador=1
-			where IDPartido=@IDPartido
-		end
-	end
-
-	if @Tipo=2
-	begin
-		if @NombreEquipo='Local'
-		begin
-			if @ApostadoResLocalTipo2=@ResLocal
+			if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
 			begin
 				update Apuestas
 				set IsGanador=1
 				where IDPartido=@IDPartido
 			end
 		end
-		else if @NombreEquipo='Visitante'
+
+		if @Tipo=2
 		begin
-			if @ApostadoResVisitanteTipo2=@ResVisitante
+			if @NombreEquipo='Local'
+			begin
+				if @ApostadoResLocalTipo2=@ResLocal
+				begin
+					update Apuestas
+					set IsGanador=1
+					where IDPartido=@IDPartido
+				end
+			end
+			else if @NombreEquipo='Visitante'
+			begin
+				if @ApostadoResVisitanteTipo2=@ResVisitante
+				begin
+					update Apuestas
+					set IsGanador=1
+					where IDPartido=@IDPartido
+				end
+			end
+		end
+
+		if @Tipo=3
+		begin
+			if @EquipoGanador='Local' and @ResVisitante<@ResLocal
 			begin
 				update Apuestas
 				set IsGanador=1
 				where IDPartido=@IDPartido
 			end
-		end
-	end
-
-	if @Tipo=3
-	begin
-		if @EquipoGanador='Local' and @ResVisitante<@ResLocal
-		begin
-			update Apuestas
-			set IsGanador=1
-			where IDPartido=@IDPartido
-		end
-		else if @NombreEquipo='Visitante' and @ResVisitante>@ResLocal
-		begin
-			update Apuestas
-			set IsGanador=1
-			where IDPartido=@IDPartido
-		end
-		else if @NombreEquipo='Empate' and @ResVisitante=@ResLocal
-		begin
-			update Apuestas
-			set IsGanador=1
-			where IDPartido=@IDPartido
+			else if @NombreEquipo='Visitante' and @ResVisitante>@ResLocal
+			begin
+				update Apuestas
+				set IsGanador=1
+				where IDPartido=@IDPartido
+			end
+			else if @NombreEquipo='Empate' and @ResVisitante=@ResLocal
+			begin
+				update Apuestas
+				set IsGanador=1
+				where IDPartido=@IDPartido
+			end
 		end
 	end
 end
@@ -213,12 +215,13 @@ begin tran
 update Partidos
 set resultadoLocal=2,
 	resultadoVisitante=1
-where id='F3705281-53F3-4E69-B7DD-3AFF4C93EDFA'
+where id='F8867B36-B768-413E-AF0C-1CFEA5312A82'
 
 rollback
 
 select * from Partidos
 select * from Apuestas
+select * from ApuestaTipo1
 
 
 insert into ApuestaTipo1(id,NumGolesLocal,numGolesVisitante)
