@@ -51,11 +51,11 @@ go
 
 --Da fallos
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
-values(NEWID(), 3.5, '2019-19-06 12:00:00', 20, 'juanperez@gmail.com', '9505DE30-C09B-47F0-BB65-0FF39E48699C',1, 1)
+values(NEWID(), 3.5, '2019-08-10 12:00:00', 20, 'juanperez@gmail.com', '9505DE30-C09B-47F0-BB65-0FF39E48699C',1, 1)
 go
 
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
-values(NEWID(), 3, '2019-19-06 10:45:00', 10, 'lauraortiz@gmail.com', '8262348E-0253-449E-A004-16B210978F76', 2, 0)
+values(NEWID(), 3, '2019-05-06 10:45:00', 10, 'lauraortiz@gmail.com', '8262348E-0253-449E-A004-16B210978F76', 2, 0)
 go
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
 values(NEWID(), 4, '2018-10-05 14:25:23', 10,'pedrohernandez@gmail.com', 'EE23DA6A-A9A8-4DB7-BE0D-9B12C378AE29', 3, 1)
@@ -99,9 +99,13 @@ go
 --select * from Cuentas
 
 /*delete from Cuentas where saldo=300*/
-insert into Cuentas/*(id, saldo, fechaYHora, correoUsuario)*/ values(200,'2019-07-19 13:00:00', 'juanperez@gmail.com')
+set dateformat 'ymd' --Para establecer formato correcto de fecha
+/*insert into Cuentas(saldo, fechaYHora, correoUsuario) values(200, GETDATE(), 'juanperez@gmail.com')
+go*/
+insert into Cuentas(saldo, fechaYHora, correoUsuario) values(200, '2019-08-07 11:00:00', 'juanperez@gmail.com')
 go
-insert into Cuentas/*(id, saldo, fechaYHora, correoUsuario)*/ values(300,'2019-14-07 11:00:00', 'lauraortiz@gmail.com')
+insert into Cuentas/*(saldo, fechaYHora, correoUsuario)*/ values(300,'2019-08-07 11:00:00', 'lauraortiz@gmail.com')
 go
-insert into Cuentas/*(id, saldo, fechaYHora, correoUsuario)*/ values(50,'2019-06-19 12:00:00', 'pedrohernandez@gmail.com')
+insert into Cuentas/*(saldo, fechaYHora, correoUsuario)*/ values(50,'2018-08-20 11:30:00', 'pedrohernandez@gmail.com')
 go
+
