@@ -131,6 +131,8 @@ go
 alter table Usuarios add constraint CK_SaldoActual check (SaldoActual >=0)
 go
 
+--ganador debe ser empate, local o visitante
+alter table ApuestasTipo3 add constraint CK_Ganador check (ganador in('empate','local', 'visitante'))
 --begin transaction
 
 --insert into Usuarios values 
