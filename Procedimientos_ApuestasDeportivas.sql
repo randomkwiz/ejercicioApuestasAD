@@ -213,7 +213,7 @@ begin
 					set IsGanador=1
 					where IDPartido=@IDPartido and Tipo=3
 				end--if
-			end--if tipo 2
+			end--if tipo 3
 
 
 		end--fin if update
