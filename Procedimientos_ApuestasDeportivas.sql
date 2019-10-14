@@ -206,13 +206,8 @@ begin
 			end--if tipo 2
 
 			-------------------------------------------------------
-			--if exists (select Tipo from Apuestas
-			--		where @IDPartido=IDPartido and Tipo=3)
-			--begin
-			--	select @NombreEquipo=AT3.ganador from ApuestaTipo3 as AT3
-			--	inner join Apuestas as A on AT3.id=A.ID
-			--	where @IDPartido=A.IDPartido
 
+			/*antiguo*/
 			--	if @NombreEquipo='visitante' and @ResVisitante>@ResLocal
 			--	begin
 			--		update Apuestas
@@ -231,7 +226,29 @@ begin
 			--		set IsGanador=1
 			--		where IDPartido=@IDPartido and Tipo=3
 			--	end--if
-			--end--if tipo 3
+
+			/*fin antiguo*/
+
+			if exists (select Tipo from Apuestas
+					where @IDPartido=IDPartido and Tipo=3)
+			begin
+			
+			update
+			Apuestas
+			set IsGanador = 1
+			from Apuestas as A
+			inner join ApuestaTipo3 as AT3
+			on A.ID = AT3.id
+			where IDPartido=@IDPartido and Tipo=3
+			AND
+			(
+			(AT3.ganador = 'local' AND @ResLocal > @ResVisitante)
+			or
+			(AT3.ganador = 'visitante' AND @ResLocal < @ResVisitante)
+			or
+			(AT3.ganador = 'empate' AND @ResLocal = @ResVisitante)
+			)
+			end--if tipo 3
 
 
 		end--fin if update
@@ -241,6 +258,11 @@ begin
 	close miCursor--cerramos
 	deallocate miCursor--liberamos la memoria
 end --cierra el trigger
+
+
+
+
+
 go
 ---------pruebas tipo 1
 begin tran
