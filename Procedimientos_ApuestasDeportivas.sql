@@ -112,7 +112,7 @@ de que ganen una apuesta*/
 
 go
 create 
---alter 
+or alter 
 trigger T_ActualizarGanador on Partidos
 after update as
 begin
@@ -150,15 +150,22 @@ begin
 			if exists (select Tipo from Apuestas
 					where @IDPartido=IDPartido and Tipo=1)
 			begin
-				select @ApostadoResLocal=AT1.NumGolesLocal,@ApostadoResVisitante=AT1.numGolesVisitante from ApuestaTipo1 as AT1
-				inner join Apuestas as A on AT1.id=A.ID
-				where @IDPartido=A.IDPartido
-				if @ResLocal=@ApostadoResLocal and @ResVisitante=@ApostadoResVisitante
-				begin
+
 					update Apuestas
 					set IsGanador=1
+					from
+					Apuestas as A
+					inner join
+					ApuestaTipo1 as AT1
+					on A.ID = AT1.id
 					where IDPartido=@IDPartido and Tipo=1
-				end--if
+					and
+					AT1.NumGolesLocal = @ResLocal
+					and
+					AT1.numGolesVisitante = @ResVisitante
+					
+
+				
 			end--if tipo 1
 			
 
@@ -169,50 +176,78 @@ begin
 			if exists (select Tipo from Apuestas
 					where @IDPartido=IDPartido and Tipo=2)
 			begin
-				select @NombreEquipo=AT2.equipo ,@NumGolesEquipo=AT2.goles from ApuestaTipo2 as AT2
-				inner join Apuestas as A on AT2.id=A.ID
-				where @IDPartido=A.IDPartido
+				--select @NombreEquipo=AT2.equipo ,@NumGolesEquipo=AT2.goles from ApuestaTipo2 as AT2
+				--inner join Apuestas as A on AT2.id=A.ID
+				--where @IDPartido=A.IDPartido
 
-				if @NombreEquipo='visitante' and @NumGolesEquipo=@ResVisitante
-				begin
+				--if @NombreEquipo='visitante' and @NumGolesEquipo=@ResVisitante
+				--begin
 					update Apuestas
 					set IsGanador=1
+					from
+					Apuestas as A
+					inner join
+					ApuestaTipo2 as AT2
+					on A.ID = AT2.id
 					where IDPartido=@IDPartido and Tipo=2
-				end--if
-				else if @NombreEquipo='local' and @NumGolesEquipo=@ResLocal
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido and Tipo=2
-				end--if
+					and 
+					(
+					(AT2.equipo = 'visitante' AND AT2.goles = @ResVisitante)
+					or
+					(AT2.equipo = 'local' AND AT2.goles = @ResLocal)
+					)
+				--end--if
+				--else if @NombreEquipo='local' and @NumGolesEquipo=@ResLocal
+				--begin
+			--		update Apuestas
+			--		set IsGanador=1
+			--		where IDPartido=@IDPartido and Tipo=2
+			--	end--if
 			end--if tipo 2
 
-			-----------------------------------------------------
+			-------------------------------------------------------
+
+			/*antiguo*/
+			--	if @NombreEquipo='visitante' and @ResVisitante>@ResLocal
+			--	begin
+			--		update Apuestas
+			--		set IsGanador=1
+			--		where IDPartido=@IDPartido and Tipo=3
+			--	end--if
+			--	else if @NombreEquipo='local' and @ResVisitante<@ResLocal
+			--	begin
+			--		update Apuestas
+			--		set IsGanador=1
+			--		where IDPartido=@IDPartido and Tipo=3
+			--	end--if
+			--	else if @NombreEquipo='empate' and @ResVisitante=@ResLocal
+			--	begin
+			--		update Apuestas
+			--		set IsGanador=1
+			--		where IDPartido=@IDPartido and Tipo=3
+			--	end--if
+
+			/*fin antiguo*/
+
 			if exists (select Tipo from Apuestas
 					where @IDPartido=IDPartido and Tipo=3)
 			begin
-				select @NombreEquipo=AT3.ganador from ApuestaTipo3 as AT3
-				inner join Apuestas as A on AT3.id=A.ID
-				where @IDPartido=A.IDPartido
-
-				if @NombreEquipo='visitante' and @ResVisitante>@ResLocal
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido and Tipo=3
-				end--if
-				else if @NombreEquipo='local' and @ResVisitante<@ResLocal
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido and Tipo=3
-				end--if
-				else if @NombreEquipo='empate' and @ResVisitante=@ResLocal
-				begin
-					update Apuestas
-					set IsGanador=1
-					where IDPartido=@IDPartido and Tipo=3
-				end--if
+			
+			update
+			Apuestas
+			set IsGanador = 1
+			from Apuestas as A
+			inner join ApuestaTipo3 as AT3
+			on A.ID = AT3.id
+			where IDPartido=@IDPartido and Tipo=3
+			AND
+			(
+			(AT3.ganador = 'local' AND @ResLocal > @ResVisitante)
+			or
+			(AT3.ganador = 'visitante' AND @ResLocal < @ResVisitante)
+			or
+			(AT3.ganador = 'empate' AND @ResLocal = @ResVisitante)
+			)
 			end--if tipo 3
 
 
@@ -223,14 +258,29 @@ begin
 	close miCursor--cerramos
 	deallocate miCursor--liberamos la memoria
 end --cierra el trigger
+
+
+
+
+
 go
 ---------pruebas tipo 1
 begin tran
 update Partidos
 set resultadoLocal=1,
 	resultadoVisitante=5
-where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
+where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
 
+select * from Apuestas
+select * from Partidos
+select * from ApuestaTipo1
+
+
+update ApuestaTipo1
+set NumGolesLocal = 1,
+	numGolesVisitante = 5
+
+rollback
 
 ------pruebas tipo 2
 begin tran
@@ -256,7 +306,9 @@ where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
 rollback
 select * from Partidos
 select * from Apuestas
-select * from ApuestaTipo3
+select * from ApuestaTipo1
+
+
 
 /*Despues se hace un trigger para que cada vez que se actualice la tabla usuario con el saldo, ese movimiento quede grabado en la entidad
 cuenta*/
