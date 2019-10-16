@@ -135,6 +135,7 @@ begin
 			@ApostadoResVisitanteTipo2 tinyint,
 			@EquipoGanador varchar(10)
 
+<<<<<<< HEAD
 	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,
 	maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion from inserted
 
@@ -142,6 +143,13 @@ begin
 
 	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
 	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+=======
+	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,fechaPartido,idCompeticion from inserted
+
+	open miCursor
+
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
+>>>>>>> master
 
 	while(@@FETCH_STATUS=0)
 	begin
@@ -252,8 +260,12 @@ begin
 
 
 		end--fin if update
+<<<<<<< HEAD
 	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
 	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+=======
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
+>>>>>>> master
 	end--fin de while
 	close miCursor--cerramos
 	deallocate miCursor--liberamos la memoria
@@ -287,7 +299,11 @@ begin tran
 update Partidos
 set resultadoLocal=1,
 	resultadoVisitante=5
+<<<<<<< HEAD
 where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
+=======
+where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
+>>>>>>> master
 
 begin tran
 update Partidos
@@ -299,14 +315,25 @@ where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
 ------pruebas tipo 3
 begin tran
 update Partidos
+<<<<<<< HEAD
 set resultadoLocal=3,
 	resultadoVisitante=1
 where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
+=======
+set resultadoLocal=2,
+	resultadoVisitante=1
+where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
+>>>>>>> master
 
 rollback
 select * from Partidos
 select * from Apuestas
 select * from ApuestaTipo1
+<<<<<<< HEAD
+=======
+select * from ApuestaTipo2
+select * from ApuestaTipo3
+>>>>>>> master
 
 
 
