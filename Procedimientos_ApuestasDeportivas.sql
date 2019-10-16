@@ -135,13 +135,11 @@ begin
 			@ApostadoResVisitanteTipo2 tinyint,
 			@EquipoGanador varchar(10)
 
-	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,
-	maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion from inserted
+	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,fechaPartido,idCompeticion from inserted
 
 	open miCursor
 
-	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
-	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
 
 	while(@@FETCH_STATUS=0)
 	begin
@@ -252,8 +250,7 @@ begin
 
 
 		end--fin if update
-	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
-	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
 	end--fin de while
 	close miCursor--cerramos
 	deallocate miCursor--liberamos la memoria
@@ -307,6 +304,8 @@ rollback
 select * from Partidos
 select * from Apuestas
 select * from ApuestaTipo1
+select * from ApuestaTipo2
+select * from ApuestaTipo3
 
 
 
