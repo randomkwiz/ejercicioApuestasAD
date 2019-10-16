@@ -284,7 +284,7 @@ begin tran
 update Partidos
 set resultadoLocal=1,
 	resultadoVisitante=5
-where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
+where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
 
 begin tran
 update Partidos
@@ -296,9 +296,9 @@ where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
 ------pruebas tipo 3
 begin tran
 update Partidos
-set resultadoLocal=3,
+set resultadoLocal=2,
 	resultadoVisitante=1
-where id='A21EA695-68C5-4AF8-870C-77B3C3D50ECB'
+where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
 
 rollback
 select * from Partidos
