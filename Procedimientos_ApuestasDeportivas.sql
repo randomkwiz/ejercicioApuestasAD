@@ -135,19 +135,12 @@ begin
 			@ApostadoResVisitanteTipo2 tinyint,
 			@EquipoGanador varchar(10)
 
-<<<<<<< HEAD
+
 	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,fechaPartido,idCompeticion from inserted
 
 	open miCursor
 
 	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@FechaPartido,@IdCompeticion
---=======
---	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,fechaPartido,idCompeticion from inserted
-
---	open miCursor
-
---	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
--->>>>>>> master
 
 	while(@@FETCH_STATUS=0)
 	begin
@@ -258,10 +251,7 @@ begin
 
 
 		end--fin if update
---<<<<<<< HEAD
---	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
---	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
---=======
+
 	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
 
 	end--fin de while
