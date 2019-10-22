@@ -43,6 +43,7 @@ TRIGGER TR_esGanador
 				end
 	end
 GO
+--poner que este trigger se ejecute el último
 sp_settriggerorder @triggername='TR_esGanador' , @order='Last', @stmttype = 'UPDATE'
 go
 	---------------
