@@ -136,13 +136,11 @@ begin
 			@EquipoGanador varchar(10)
 
 <<<<<<< HEAD
-	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,
-	maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion from inserted
+	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,fechaPartido,idCompeticion from inserted
 
 	open miCursor
 
-	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,
-	@ApuestaMaxima1,@ApuestaMaxima2,@ApuestaMaxima3,@FechaPartido,@IdCompeticion
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@FechaPartido,@IdCompeticion
 =======
 	declare miCursor cursor for select ID,resultadoLocal,resultadoVisitante,isAbierto,fechaPartido,idCompeticion from inserted
 
