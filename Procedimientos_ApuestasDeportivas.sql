@@ -119,10 +119,10 @@ begin
 	declare @IDPartido uniqueidentifier,
 			@ResLocal tinyint,
 			@ResVisitante tinyint,
-			@isAbierto bit,
-			@ApuestaMaxima1 int,
-			@ApuestaMaxima2 int,
-			@ApuestaMaxima3 int,
+			--@isAbierto bit,
+			--@ApuestaMaxima1 int,
+			--@ApuestaMaxima2 int,
+			--@ApuestaMaxima3 int,
 			@FechaPartido smalldatetime,
 			@IdCompeticion uniqueidentifier
 
