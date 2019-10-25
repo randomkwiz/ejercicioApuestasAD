@@ -35,7 +35,7 @@ BEGIN
 		FROM inserted as I
 		inner join Partidos as P
 		on I.IDPARTIDO = P.id
-		WHERE P.isAbierto = 0	--si existen inserciones que estén relacionadas con partidos con el cupo abierto
+		WHERE P.isAbierto = 1	--si existen inserciones que estén relacionadas con partidos con el cupo abierto
 		)
 	BEGIN
 		RAISERROR('EL PERIODO DE APUESTAS ESTA CERRADO',16,1)
