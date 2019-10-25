@@ -252,7 +252,7 @@ begin
 
 		end--fin if update
 
-	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@isAbierto,@FechaPartido,@IdCompeticion
+	fetch next from miCursor into @IDPartido,@ResLocal,@ResVisitante,@FechaPartido,@IdCompeticion
 
 	end--fin de while
 	close miCursor--cerramos
@@ -269,7 +269,7 @@ begin tran
 update Partidos
 set resultadoLocal=1,
 	resultadoVisitante=5
-where id='C11875D3-CB0F-49AA-AF9C-27895AAE5455'
+where id='84B28789-7A36-417E-8B56-5AC4CC582F1B'
 
 select * from Apuestas
 select * from Partidos

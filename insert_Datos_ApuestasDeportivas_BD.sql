@@ -30,15 +30,17 @@ go
 --select * from competiciones
 /*delete from Partidos where id ='027A0DD4-09C3-40CB-BA70-C343C288FE3C'*/
 
+set dateformat'ydm'
+
 --Da fallos
 insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion) 
-values(NEWID(), 2, 1, 0, 30, 60, 100,'2018-20-06 12:30:00', '500BCBA5-44AB-41EB-8EF6-4B999233AC5C')
+values(NEWID(), 2, 1, 0, 30, 60, 100,'2018-20-06 12:30:00', 'E7A320DB-5D91-44BA-AE8D-657FE453510A')
 go
 insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion) 
-values(NEWID(), 3, 4, 0, 60, 80, 90, '2019-14-07 11:00:00', '500BCBA5-44AB-41EB-8EF6-4B999233AC5C')
+values(NEWID(), 3, 4, 0, 60, 80, 90, '2019-14-07 11:00:00', 'E7A320DB-5D91-44BA-AE8D-657FE453510A')
 go
 insert into Partidos(id,resultadoLocal,resultadoVisitante,isAbierto,maxApuesta1,maxApuesta2,maxApuesta3,fechaPartido,idCompeticion) 
-values(NEWID(), 4, 5, 0, 70, 90, 100, '2019-14-07 11:00:00','500BCBA5-44AB-41EB-8EF6-4B999233AC5C')
+values(NEWID(), 4, 5, 0, 70, 90, 100, '2019-14-07 11:00:00','E7A320DB-5D91-44BA-AE8D-657FE453510A')
 go
 
 
@@ -51,21 +53,21 @@ go
 
 --Da fallos
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
-values(NEWID(), 3.5, '2019-08-10 12:00:00', 20, 'juanperez@gmail.com', 'C11875D3-CB0F-49AA-AF9C-27895AAE5455',2, 0)
+values(NEWID(), 3.5, '2019-08-10 12:00:00', 20, 'juanperez@gmail.com', '84B28789-7A36-417E-8B56-5AC4CC582F1B',1, 0)
 go
 
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
-values(NEWID(), 3, '2019-05-06 10:45:00', 10, 'lauraortiz@gmail.com', 'C11875D3-CB0F-49AA-AF9C-27895AAE5455', 2, 0)
+values(NEWID(), 3, '2019-05-06 10:45:00', 10, 'lauraortiz@gmail.com', '84B28789-7A36-417E-8B56-5AC4CC582F1B', 2, 0)
 go
 insert into Apuestas(ID, cuota, FechaHoraApuesta, DineroApostado, CorreoUsuario, IDPartido, Tipo, IsGanador) 
-values(NEWID(), 4, '2018-10-05 14:25:23', 10,'pedrohernandez@gmail.com', 'C11875D3-CB0F-49AA-AF9C-27895AAE5455', 2, 0)
+values(NEWID(), 4, '2018-10-05 14:25:23', 10,'pedrohernandez@gmail.com', '84B28789-7A36-417E-8B56-5AC4CC582F1B', 3, 0)
 go
 
 --select * from Apuestas
 --select * from ApuestaTipo1
 --select * from Competiciones
 
-insert into ApuestaTipo1(id, NumGolesLocal, numGolesVisitante) values('79013944-F42E-47E8-B450-19C2D503D2C3', 1, 5)
+insert into ApuestaTipo1(id, NumGolesLocal, numGolesVisitante) values('82A64CD7-8EB9-4BF7-8F6C-9B0E0B2926E9', 1, 5)
 go
 insert into ApuestaTipo1(id, NumGolesLocal, numGolesVisitante) values('AE0F0A72-7672-4CC7-9238-EB2A13BC3EA7', 2, 3)
 go
